@@ -10,10 +10,12 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.inhibitor.mediabrowser.util.Logger;
 
 public class MediaBrowserPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
   private MethodChannel channel;
   private MediaBrowserDelegate delegate;
+  private ActivityPluginBinding activityPluginBinding;
 
   @Override
   public void onAttachedToEngine(FlutterPluginBinding flutterPluginBinding) {
@@ -29,7 +31,7 @@ public class MediaBrowserPlugin implements FlutterPlugin, MethodCallHandler, Act
   @Override
   public void onMethodCall(MethodCall call, Result result) {
     try {
-      Method method = Method.fromName(call.method);
+      MediaBrowserPluginMethod method = MediaBrowserPluginMethod.fromName(call.method);
 
       switch (method) {
         case GetMediaList:
@@ -48,29 +50,37 @@ public class MediaBrowserPlugin implements FlutterPlugin, MethodCallHandler, Act
 
   @Override
   public void onAttachedToActivity(ActivityPluginBinding activityPluginBinding) {
-    setup(activityPluginBinding.getActivity());
+    this.activityPluginBinding = activityPluginBinding;
+    setup();
   }
 
   @Override
   public void onDetachedFromActivityForConfigChanges() {
+    this.activityPluginBinding = null;
     teardown();
   }
 
   @Override
   public void onReattachedToActivityForConfigChanges(ActivityPluginBinding activityPluginBinding) {
-    setup(activityPluginBinding.getActivity());
+    this.activityPluginBinding = activityPluginBinding;
+    setup();
   }
 
   @Override
   public void onDetachedFromActivity() {
+    this.activityPluginBinding = null;
     teardown();
   }
 
-  private void setup(Activity activity) {
+  private void setup() {
+    Activity activity = activityPluginBinding.getActivity();
+
     delegate = new MediaBrowserDelegate(activity, new Logger("mediabrowser"));
+    activityPluginBinding.addRequestPermissionsResultListener(delegate);
   }
 
   private void teardown() {
+    activityPluginBinding.removeRequestPermissionsResultListener(delegate);
     delegate = null;
   }
 }

@@ -1,4 +1,4 @@
-package io.inhibitor.mediabrowser;
+package io.inhibitor.mediabrowser.util;
 
 import android.util.Log;
 
@@ -7,7 +7,7 @@ import java.util.Locale;
 public class Logger {
     private String tag;
 
-    Logger(String tag) {
+    public Logger(String tag) {
         this.tag = tag;
     }
 
