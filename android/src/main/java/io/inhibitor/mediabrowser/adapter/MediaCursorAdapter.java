@@ -42,11 +42,12 @@ public class MediaCursorAdapter {
         long id = cursor.getLong(adapter.getColumnIndex(MediaStore.Video.Media._ID));
         String displayName = cursor.getString(adapter.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
         int duration = cursor.getInt(adapter.getColumnIndex(MediaStore.Video.Media.DURATION));
+        String path = cursor.getString(adapter.getColumnIndex(MediaStore.Video.Media.DATA));
         int size = cursor.getInt(adapter.getColumnIndex(MediaStore.Video.Media.SIZE));
         int dateModified = cursor.getInt(adapter.getColumnIndex(MediaStore.Video.Media.DATE_MODIFIED));
 
         Uri contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
 
-        return new Media(contentUri, displayName, duration, size, dateModified);
+        return new Media(contentUri, displayName, duration, path, size, dateModified);
     }
 }

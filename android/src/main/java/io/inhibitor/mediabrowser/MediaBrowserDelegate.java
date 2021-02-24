@@ -23,6 +23,7 @@ public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsRe
             MediaStore.Video.Media._ID,
             MediaStore.Video.Media.DISPLAY_NAME,
             MediaStore.Video.Media.DURATION,
+            MediaStore.Video.Media.DATA,
             MediaStore.Video.Media.SIZE,
             MediaStore.Video.Media.DATE_MODIFIED,
     };

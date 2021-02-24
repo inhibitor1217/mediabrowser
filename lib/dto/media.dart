@@ -9,24 +9,24 @@ extension DateTimeExtension on DateTime {
 }
 
 class Media {
-  final Uri uri;
   final String name;
   final Duration duration;
+  final String path;
   final int size;
   final DateTime dateModified;
   Media({
-    @required this.uri,
     @required this.name,
     @required this.duration,
+    @required this.path,
     @required this.size,
     @required this.dateModified,
   });
 
   factory Media.fromJson(Map<String, dynamic> json) {
     return Media(
-      uri: Uri.parse(json['path']),
       name: json['name'],
       duration: Duration(milliseconds: json['durationInMillis']),
+      path: json['path'],
       size: json['sizeInBytes'],
       dateModified:
           DateTimeExtension.fromSecondsSinceEpoch(json['dateModified']),
@@ -35,9 +35,9 @@ class Media {
 
   @override
   String toString() => jsonEncode({
-        'path': uri.path,
         'name': name,
         'duration': duration.toString(),
+        'path': path,
         'size': size,
         'dateModified': dateModified.toString(),
       });
