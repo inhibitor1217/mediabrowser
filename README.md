@@ -1,14 +1,11 @@
 # mediabrowser
 
-A new flutter plugin project.
+This is a simple Flutter plugin for listing video files on external storage.
 
-## Getting Started
+## Android Setup
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Add permission: `READ_EXTERNAL_STORAGE` on the manifest file. (`android/app/main/AndroidManifest.xml`)
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+```
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+```

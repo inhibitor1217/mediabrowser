@@ -1,6 +1,6 @@
 name: mediabrowser
-description: A new flutter plugin project.
-version: 0.0.1
+description: This is a simple plugin for listing video files on external storage.
+version: 0.1.0
 author:
 homepage:
 
