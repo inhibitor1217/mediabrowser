@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mediabrowser/mediabrowser.dart';
-import 'package:mediabrowser/dto/media.dart';
 
 class _MediaThumbnail extends StatefulWidget {
   final path;

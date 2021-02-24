@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import './dto/media.dart';
 import './exception/mediabrowser_exception_factory.dart';
 
+export './dto/media.dart' show Media;
+
 class MediaBrowser {
   static const MethodChannel _channel = const MethodChannel('mediabrowser');
 
