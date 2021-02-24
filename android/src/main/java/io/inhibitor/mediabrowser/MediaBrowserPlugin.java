@@ -10,6 +10,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.inhibitor.mediabrowser.util.ExternalStorageQueryHandler;
 import io.inhibitor.mediabrowser.util.Logger;
 import io.inhibitor.mediabrowser.util.ThumbnailExtractor;
 
@@ -81,6 +82,7 @@ public class MediaBrowserPlugin implements FlutterPlugin, MethodCallHandler, Act
 
     delegate = new MediaBrowserDelegate(activity,
                                         new Logger("mediabrowser"),
+                                        new ExternalStorageQueryHandler(activity),
                                         new ThumbnailExtractor());
     activityPluginBinding.addRequestPermissionsResultListener(delegate);
   }

@@ -3,7 +3,6 @@ package io.inhibitor.mediabrowser;
 import android.Manifest;
 import android.app.Activity;
 import android.database.Cursor;
-import android.provider.MediaStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,36 +15,29 @@ import io.inhibitor.mediabrowser.dto.Media;
 import io.inhibitor.mediabrowser.permission.MediaPermissionManager;
 import io.inhibitor.mediabrowser.permission.MediaPermissionManagerFactory;
 import io.inhibitor.mediabrowser.permission.PermissionGrantedCallback;
+import io.inhibitor.mediabrowser.util.ExternalStorageQueryHandler;
 import io.inhibitor.mediabrowser.util.Logger;
 import io.inhibitor.mediabrowser.util.ThumbnailExtractor;
 
 public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsResultListener {
-    private static final String[] mediaQueryProjection = new String[] {
-            MediaStore.Video.Media._ID,
-            MediaStore.Video.Media.DISPLAY_NAME,
-            MediaStore.Video.Media.DURATION,
-            MediaStore.Video.Media.DATA,
-            MediaStore.Video.Media.SIZE,
-            MediaStore.Video.Media.DATE_MODIFIED,
-    };
-
-    private static final String mediaQuerySortOrder = MediaStore.Video.Media.DATE_MODIFIED + " DESC";
-
     public enum MediaBrowsingAction {
         ListMedia,
     }
 
     private final Activity activity;
     private final Logger logger;
+    private final ExternalStorageQueryHandler externalStorageQueryHandler;
     private final ThumbnailExtractor thumbnailExtractor;
 
     private final MediaPermissionManager permissionManager;
 
     MediaBrowserDelegate(Activity activity,
                          Logger logger,
+                         ExternalStorageQueryHandler externalStorageQueryHandler,
                          ThumbnailExtractor thumbnailExtractor) {
         this.activity = activity;
         this.logger = logger;
+        this.externalStorageQueryHandler = externalStorageQueryHandler;
         this.thumbnailExtractor = thumbnailExtractor;
 
         this.permissionManager = MediaPermissionManagerFactory.create(this, activity);
@@ -70,7 +62,7 @@ public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsRe
             return;
         }
 
-        Cursor cursor = queryExternalStorage();
+        Cursor cursor = externalStorageQueryHandler.queryAll();
         MediaCursorAdapter mediaCursorAdapter = new MediaCursorAdapter(cursor);
         List<Media> medias = mediaCursorAdapter.getAllMedias();
 
@@ -88,17 +80,6 @@ public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsRe
         byte[] thumbnailByteArray = thumbnailExtractor.extractThumbnailByteArray(path);
 
         result.success(thumbnailByteArray);
-    }
-
-    private Cursor queryExternalStorage() {
-        return activity
-                .getApplicationContext()
-                .getContentResolver()
-                .query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                        mediaQueryProjection,
-                        null,
-                        null,
-                        mediaQuerySortOrder);
     }
 
     @Override
