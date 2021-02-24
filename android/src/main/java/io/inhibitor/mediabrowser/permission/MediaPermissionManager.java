@@ -7,7 +7,7 @@ public interface MediaPermissionManager {
     void requestPermission(String requestedPermission,
                           PermissionGrantedCallback callback);
 
-    void onRequestPermissionsResult(String[] requestedPermissions,
+    boolean onRequestPermissionsResult(String[] requestedPermissions,
                                     int[] grantResults,
                                     int requestCode);
 }

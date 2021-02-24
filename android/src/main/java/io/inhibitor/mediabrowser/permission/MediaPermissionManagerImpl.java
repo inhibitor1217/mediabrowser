@@ -53,7 +53,7 @@ public class MediaPermissionManagerImpl implements MediaPermissionManager {
     }
 
     @Override
-    public void onRequestPermissionsResult(String[] requestedPermissions,
+    public boolean onRequestPermissionsResult(String[] requestedPermissions,
                                            int[] grantResults,
                                            int requestCode) {
         PermissionGrantedCallback callback = getCallback(requestCode);
@@ -63,11 +63,12 @@ public class MediaPermissionManagerImpl implements MediaPermissionManager {
             if (grantResult != PackageManager.PERMISSION_GRANTED) {
                 String failedPermission = requestedPermissions[i];
                 callback.fail(failedPermission);
-                return;
+                return false;
             }
         }
 
         callback.call(delegate);
+        return true;
     }
 
     private PermissionGrantedCallback getCallback(int id) {

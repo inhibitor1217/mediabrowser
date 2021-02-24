@@ -2,7 +2,6 @@ package io.inhibitor.mediabrowser;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
@@ -58,9 +57,10 @@ public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsRe
     }
 
     public void listMedias(MethodCall call, MethodChannel.Result result) {
-        if (!permissionManager.isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            logger.log("permission not granted, requesting for permission ...");
-            permissionManager.requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
+        String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+
+        if (!permissionManager.isPermissionGranted(permission)) {
+            permissionManager.requestPermission(permission,
                     new PermissionGrantedCallback(call, result, MediaBrowsingAction.ListMedia));
             return;
         }
@@ -92,9 +92,6 @@ public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsRe
     public boolean onRequestPermissionsResult(int requestCode,
                                               String[] permissions,
                                               int[] grantResults) {
-        logger.log("permission request callback: " + requestCode + ", " + permissions[0] + ", " + grantResults[0]);
-        logger.log("permission granted code is " + PackageManager.PERMISSION_GRANTED);
-        permissionManager.onRequestPermissionsResult(permissions, grantResults, requestCode);
-        return true;
+        return permissionManager.onRequestPermissionsResult(permissions, grantResults, requestCode);
     }
 }
