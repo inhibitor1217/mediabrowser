@@ -11,6 +11,8 @@ public class ExternalStorageQueryHandler {
             MediaStore.Video.Media.DURATION,
             MediaStore.Video.Media.DATA,
             MediaStore.Video.Media.SIZE,
+            MediaStore.Video.Media.WIDTH,
+            MediaStore.Video.Media.HEIGHT,
             MediaStore.Video.Media.DATE_MODIFIED,
     };
 

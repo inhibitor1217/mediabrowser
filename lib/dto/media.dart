@@ -13,12 +13,16 @@ class Media {
   final Duration duration;
   final String path;
   final int size;
+  final int width;
+  final int height;
   final DateTime dateModified;
   Media({
     @required this.name,
     @required this.duration,
     @required this.path,
     @required this.size,
+    @required this.width,
+    @required this.height,
     @required this.dateModified,
   });
 
@@ -28,6 +32,8 @@ class Media {
       duration: Duration(milliseconds: json['durationInMillis']),
       path: json['path'],
       size: json['sizeInBytes'],
+      width: json['width'],
+      height: json['height'],
       dateModified:
           DateTimeExtension.fromSecondsSinceEpoch(json['dateModified']),
     );
@@ -39,6 +45,8 @@ class Media {
         'duration': duration.toString(),
         'path': path,
         'size': size,
+        'width': width,
+        'height': height,
         'dateModified': dateModified.toString(),
       });
 }

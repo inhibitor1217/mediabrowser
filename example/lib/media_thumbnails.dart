@@ -37,9 +37,17 @@ class _MediaThumbnailsState extends State<MediaThumbnails> {
         children: <Widget>[
           if (snapshot.hasData)
             ...snapshot.data.map(
-              (media) => _MediaThumbnail(
-                key: ValueKey<String>(media.name),
-                path: media.path,
+              (media) => Stack(
+                children: [
+                  _MediaThumbnail(
+                    key: ValueKey<String>(media.name),
+                    path: media.path,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text('${media.width}x${media.height}'),
+                  )
+                ],
               ),
             ),
         ],
