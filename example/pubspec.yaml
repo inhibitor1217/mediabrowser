@@ -1,0 +1,21 @@
+name: mediabrowser_example
+description: Demonstrates how to use the mediabrowser plugin.
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  mediabrowser:
+    path: ../
+
+  cupertino_icons: ^0.1.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
