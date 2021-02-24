@@ -1,7 +1,8 @@
 package io.inhibitor.mediabrowser;
 
 public enum MediaBrowserPluginMethod {
-    GetMediaList ("getMediaList");
+    GetMediaList ("getMediaList"),
+    RequestThumbnail("requestThumbnail");
 
     private final String name;
 

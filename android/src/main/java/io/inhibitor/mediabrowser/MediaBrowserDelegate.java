@@ -17,6 +17,7 @@ import io.inhibitor.mediabrowser.permission.MediaPermissionManager;
 import io.inhibitor.mediabrowser.permission.MediaPermissionManagerFactory;
 import io.inhibitor.mediabrowser.permission.PermissionGrantedCallback;
 import io.inhibitor.mediabrowser.util.Logger;
+import io.inhibitor.mediabrowser.util.ThumbnailExtractor;
 
 public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsResultListener {
     private static final String[] mediaQueryProjection = new String[] {
@@ -36,13 +37,16 @@ public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsRe
 
     private final Activity activity;
     private final Logger logger;
+    private final ThumbnailExtractor thumbnailExtractor;
 
     private final MediaPermissionManager permissionManager;
 
     MediaBrowserDelegate(Activity activity,
-                         Logger logger) {
+                         Logger logger,
+                         ThumbnailExtractor thumbnailExtractor) {
         this.activity = activity;
         this.logger = logger;
+        this.thumbnailExtractor = thumbnailExtractor;
 
         this.permissionManager = MediaPermissionManagerFactory.create(this, activity);
     }
@@ -76,6 +80,14 @@ public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsRe
         }
 
         result.success(serializedMedias);
+    }
+
+    public void requestThumbnail(MethodCall call, MethodChannel.Result result) {
+        String path = call.argument("path");
+
+        byte[] thumbnailByteArray = thumbnailExtractor.extractThumbnailByteArray(path);
+
+        result.success(thumbnailByteArray);
     }
 
     private Cursor queryExternalStorage() {

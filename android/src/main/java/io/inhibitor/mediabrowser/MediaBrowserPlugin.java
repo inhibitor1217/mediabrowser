@@ -11,6 +11,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.inhibitor.mediabrowser.util.Logger;
+import io.inhibitor.mediabrowser.util.ThumbnailExtractor;
 
 public class MediaBrowserPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
   private MethodChannel channel;
@@ -36,6 +37,9 @@ public class MediaBrowserPlugin implements FlutterPlugin, MethodCallHandler, Act
       switch (method) {
         case GetMediaList:
           delegate.listMedias(call, result);
+          break;
+        case RequestThumbnail:
+          delegate.requestThumbnail(call, result);
           break;
       }
     } catch (IllegalArgumentException e) {
@@ -75,7 +79,9 @@ public class MediaBrowserPlugin implements FlutterPlugin, MethodCallHandler, Act
   private void setup() {
     Activity activity = activityPluginBinding.getActivity();
 
-    delegate = new MediaBrowserDelegate(activity, new Logger("mediabrowser"));
+    delegate = new MediaBrowserDelegate(activity,
+                                        new Logger("mediabrowser"),
+                                        new ThumbnailExtractor());
     activityPluginBinding.addRequestPermissionsResultListener(delegate);
   }
 
