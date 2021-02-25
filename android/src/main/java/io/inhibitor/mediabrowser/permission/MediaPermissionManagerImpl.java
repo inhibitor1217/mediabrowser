@@ -3,6 +3,7 @@ package io.inhibitor.mediabrowser.permission;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -39,6 +40,7 @@ public class MediaPermissionManagerImpl implements MediaPermissionManager {
     public void requestPermission(String requestedPermission,
                                  PermissionGrantedCallback callback) {
         int callbackId = registerCallback(callback);
+        Log.d("MediaPermissionManager", "registered permission callback with id " + callbackId);
         ActivityCompat.requestPermissions(activity, new String[] { requestedPermission }, callbackId);
     }
 
@@ -56,17 +58,20 @@ public class MediaPermissionManagerImpl implements MediaPermissionManager {
     public boolean onRequestPermissionsResult(String[] requestedPermissions,
                                            int[] grantResults,
                                            int requestCode) {
+        Log.d("MediaPermissionManager", "handling response for permission request of id " + requestCode);
         PermissionGrantedCallback callback = getCallback(requestCode);
 
         for (int i = 0; i < grantResults.length; i++) {
             int grantResult = grantResults[i];
             if (grantResult != PackageManager.PERMISSION_GRANTED) {
                 String failedPermission = requestedPermissions[i];
+                Log.d("MediaPermissionManager", "permission not granted: " + failedPermission + " for request id " + requestCode);
                 callback.fail(failedPermission);
                 return false;
             }
         }
 
+        Log.d("MediaPermissionManager", "permission granted for request id " + requestCode);
         callback.call(delegate);
         return true;
     }
