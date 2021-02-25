@@ -77,9 +77,7 @@ public class MediaBrowserDelegate implements PluginRegistry.RequestPermissionsRe
     public void requestThumbnail(MethodCall call, MethodChannel.Result result) {
         String path = call.argument("path");
 
-        byte[] thumbnailByteArray = thumbnailExtractor.extractThumbnailByteArray(path);
-
-        result.success(thumbnailByteArray);
+        thumbnailExtractor.extractThumbnailByteArray(path, result);
     }
 
     @Override
