@@ -59,20 +59,28 @@ public class MediaPermissionManagerImpl implements MediaPermissionManager {
                                            int[] grantResults,
                                            int requestCode) {
         Log.d("MediaPermissionManager", "handling response for permission request of id " + requestCode);
-        PermissionGrantedCallback callback = getCallback(requestCode);
+        PermissionGrantedCallback callback = getCallback(requestCode); // this can be null, since permission can be requested without referencing this plugin
 
         for (int i = 0; i < grantResults.length; i++) {
             int grantResult = grantResults[i];
             if (grantResult != PackageManager.PERMISSION_GRANTED) {
                 String failedPermission = requestedPermissions[i];
                 Log.d("MediaPermissionManager", "permission not granted: " + failedPermission + " for request id " + requestCode);
-                callback.fail(failedPermission);
+
+                if (callback != null) {
+                    callback.fail(failedPermission);
+                }
+
                 return false;
             }
         }
 
         Log.d("MediaPermissionManager", "permission granted for request id " + requestCode);
-        callback.call(delegate);
+
+        if (callback != null) {
+            callback.call(delegate);
+        }
+
         return true;
     }
 
