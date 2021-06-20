@@ -27,9 +27,9 @@ public class MediaCursorAdapter {
         List<Media> medias = new ArrayList<>();
 
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
+        do {
             medias.add(getMediaFromCurrent());
-        }
+        } while (cursor.moveToNext());
 
         return medias;
     }
