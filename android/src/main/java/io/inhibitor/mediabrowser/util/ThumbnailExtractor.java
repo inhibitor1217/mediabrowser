@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import java.io.ByteArrayOutputStream;
 
 import io.flutter.plugin.common.MethodChannel;
+import io.inhibitor.mediabrowser.MediaBrowserErrorCode;
 
 public class ThumbnailExtractor {
     private final ThumbnailUtils thumbnailUtils;
@@ -45,12 +46,16 @@ public class ThumbnailExtractor {
         @Override
         protected void onPostExecute(byte[] bytes) {
             if (this.exception != null) {
-                result.error("thumbnailExtraction", this.exception.getMessage(), null);
+                result.error(MediaBrowserErrorCode.ThumbnailExtractionFailed.name(),
+                    this.exception.getMessage(),
+                    null);
                 return;
             }
 
             if (bytes == null) {
-                result.error("empty", "no data found", null);
+                result.error(MediaBrowserErrorCode.ThumbnailEmptyData.name(),
+                    "No data found",
+                    null);
                 return;
             }
 

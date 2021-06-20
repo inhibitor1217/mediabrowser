@@ -9,6 +9,14 @@ import './dto/media.dart';
 import './exception/mediabrowser_exception_factory.dart';
 
 export './dto/media.dart' show Media;
+export './exception/mediabrowser_unknown_exception.dart'
+    show MediaBrowserUnknownException;
+export './exception/permission_rejected_exception.dart'
+    show PermissionRejectedException;
+export './exception/thumbnail_empty_exception.dart'
+    show ThumbnailEmptyException;
+export './exception/thumbnail_extraction_exception.dart'
+    show ThumbnailExtractionException;
 
 class MediaBrowser {
   static const MethodChannel _channel = const MethodChannel('mediabrowser');
