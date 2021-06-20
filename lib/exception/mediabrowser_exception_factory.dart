@@ -8,17 +8,17 @@ import '../mediabrowser.dart';
 class MediaBrowserExceptionFactory {
   static Error create(PlatformException e) {
     switch (e.code) {
-      case 'PERMISSION_REJECTED':
+      case 'PermissionRejected':
         return PermissionRejectedException(
           message: e.message,
           details: e.details,
         );
-      case 'THUMBNAIL_EXTRACTION_FAILED':
+      case 'ThumbnailExtractionFailed':
         return ThumbnailExtractionException(
           message: e.message,
           details: e.details,
         );
-      case 'THUMBNAIL_EMPTY_DATA':
+      case 'ThumbnailEmptyData':
         return ThumbnailEmptyException(
           message: e.message,
           details: e.details,
